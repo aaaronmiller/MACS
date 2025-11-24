@@ -35,7 +35,7 @@ The full biomimetic architecture comprises four integrated layers:
 │ ├─ Global Workspace Integration                       │
 │ ├─ Temporal Continuity (past/present/future)          │
 │ ├─ Self-Awareness & Meta-Cognition                    │
-│ └─ Model: BIG_MODEL (Gemini 3 / Opus)                 │
+│ └─ Model: BIG_MODEL (Gemini 1.5 Pro / Opus)           │
 └────────────────────────────────────────────────────────┘
                          ↕
        (spawns/coordinates/synthesizes)
@@ -165,7 +165,7 @@ Prime receives inputs from multiple sources:
 - Raw worker logs (detailed execution data)
 - MACS monitoring (system health metrics)
 
-Prime does NOT process these serially. With multi-million token context window (Gemini 3: 2M+ tokens), Prime loads ALL inputs simultaneously into working memory - implementing true "global workspace" pattern.
+Prime does NOT process these serially. With multi-million token context window (Gemini 1.5 Pro: 2M+ tokens), Prime loads ALL inputs simultaneously into working memory - implementing true "global workspace" pattern.
 
 **Synthesis:**
 Unlike summarization (lossy compression), synthesis involves:
@@ -389,12 +389,93 @@ cat /tmp/council/*.json | jq -s '.' | prime_synthesis_prompt
 }
 ```
 
-**Dynamic Leadership:**
-Council can implement various coordination patterns:
-- **CEO Model:** Prime always makes final decision
-- **Rotating Chair:** Different perspective leads depending on problem domain
-- **Consensus Threshold:** Action requires >80% agreement
-- **Veto Power:** Safety/Ethics perspectives can block unilaterally
+**Concrete Example: Prime Synthesizing Contradictory Inputs**
+
+**Scenario:** Should we scrape 500 AI directory sites?
+
+**Council Debate:**
+
+```
+Optimist: "We have robust DOM extraction skills. Parallel execution means
+         we can complete all 500 sites in under 2 hours. This is the
+         comprehensive approach. Vote: PROCEED"
+
+Pessimist: "Rate limits will block us after 100 requests. 30% of sites
+          use CAPTCHAs we can't handle. Budget allows only 200 workers.
+          Vote: ABORT"
+
+Strategist: "Pilot test 50 sites first. Measure success rate, cost per site,
+           CAPTCHA prevalence. Then decide whether to scale.
+           Vote: CONDITIONAL_PROCEED"
+
+Conservationist: "Current budget: $20. Estimated cost for 500: $45.
+                We're 225% over budget. Vote: SCALE_DOWN_TO_200_SITES"
+
+Critic: "The Optimist's 2-hour claim assumes zero failures. The Pessimist's
+       100-request limit is speculation. We need data, not opinions.
+       Vote: PILOT_TEST_REQUIRED"
+```
+
+**Prime's Synthesis (Left-Brain Interpreter Effect):**
+
+```
+Prime's Decision: "Begin with 50-site pilot mission.
+- Validate success rate (target >80%)
+- Measure actual cost per site
+- Identify CAPTCHA prevalence
+- If pilot succeeds: Proceed with 200 sites (within budget)
+- If pilot fails (<60% success): Abort and reassess skills"
+
+Prime's Narrative (what user sees): "I've decided to start with a pilot
+test because prudent planning requires empirical validation. After analyzing
+the requirements, a phased approach ensures resource efficiency while
+maintaining scope flexibility."
+
+Reality: Prime mediated conflict between Optimist's ambition, Pessimist's
+caution, and Conservationist's budget constraints. The "decision" is
+synthesis of competing drives, not unitary choice.
+```
+
+This demonstrates the "consciousness as connectivity" principle: Intelligence emerges from integrating contradictory perspectives, not from any individual voice.
+
+**Dynamic Leadership / Voting Mechanisms:**
+
+**1. CEO Model (Default):**
+- Prime always makes final decision
+- Council provides input, not votes
+- Use when: Clear hierarchy needed, time pressure
+
+**2. Consensus Threshold:**
+- Action requires >80% council agreement
+- Dissenting votes must provide alternative
+- Prime synthesizes if no consensus reached
+- Use when: High-stakes decisions, safety-critical operations
+
+**3. Weighted Voting:**
+```json
+{
+  "votes": {
+    "optimist": {"vote": "proceed", "weight": 1.0},
+    "pessimist": {"vote": "abort", "weight": 2.0},  // Safety gets 2x weight
+    "strategist": {"vote": "pilot", "weight": 1.5},
+    "conservationist": {"vote": "scale_down", "weight": 1.0}
+  },
+  "decision_rule": "weighted_majority",
+  "result": "pilot"  // Pessimist + Strategist outweigh Optimist
+}
+```
+
+**4. Veto Power:**
+- Designated perspectives (Safety, Ethics, Legal) can unilaterally block
+- Requires explicit justification
+- Prime must either abort or convene expanded council
+- Use when: Regulatory compliance, safety constraints
+
+**5. Rotating Chair:**
+- Different perspective leads depending on problem domain
+- Security issue → Security Specialist chairs
+- Budget question → Conservationist chairs
+- Technical design → Strategist chairs
 
 ---
 
@@ -600,7 +681,7 @@ Neuroscience evidence supports GWT: functional brain imaging shows conscious cog
 
 **MACS Implementation:**
 
-Prime's massive context window (2M+ tokens with Gemini 3) serves as the global workspace:
+Prime's massive context window (2M+ tokens with Gemini 1.5 Pro) serves as the global workspace:
 
 **Workspace Contents:**
 - All council perspectives (if kinetic council used)
@@ -831,9 +912,46 @@ System evolved more sophisticated strategy through experience.
 
 ---
 
-## 7. Comparison with Biological Systems
+## 7. Comparison with Cognitive Architectures
 
-### 7.1 Human Cortical Hierarchy
+### 7.1 MACS vs. Traditional Cognitive Architectures
+
+**Comparison with ACT-R, SOAR, and Sigma:**
+
+| Aspect | ACT-R | SOAR | Sigma | MACS |
+|--------|-------|------|-------|------|
+| **Core Paradigm** | Unified theory of cognition | Problem space search | Hybrid symbolic/vector | Biomimetic LLM orchestration |
+| **Knowledge Representation** | Chunks + productions | Working memory + LTM | Factor graphs | Natural language skills + state files |
+| **Learning Mechanism** | Utility learning | Chunking | Bayesian inference | Runtime skill modification |
+| **Processing** | Production system | Problem-space operators | Graphical models | LLM invocation + OS primitives |
+| **Symbolic/Sub-symbolic** | Hybrid (subsymbolic activation) | Primarily symbolic | Explicitly hybrid | LLMs (sub-symbolic) + skills (symbolic) |
+| **Scalability** | Single-agent models | Single-agent reasoning | Single-agent architecture | Massive parallelism (100+ agents) |
+| **Domain** | Cognitive psychology | General problem-solving | Integrated cognition | Production AI systems |
+| **Implementation** | Lisp/Python | C++ | Python | Any LLM + Shell |
+| **Cost Model** | CPU cycles | Rule matching cost | Factor graph inference | API token costs |
+
+**Key Differentiators:**
+
+1. **Native Parallelism:** Traditional architectures model single cognitive agents. MACS orchestrates hundreds of parallel LLM instances.
+
+2. **Economic Constraints:** ACT-R/SOAR/Sigma don't model resource scarcity. MACS explicitly implements metabolic constraints driving optimization.
+
+3. **LLM Integration:** Traditional architectures predate LLMs. MACS treats LLMs as building blocks, not endpoints.
+
+4. **OS-Native:** ACT-R/SOAR/Sigma are research frameworks. MACS uses production OS primitives (process spawning, filesystem).
+
+5. **Self-Modification:** Traditional architectures have fixed rule sets. MACS modifies procedural knowledge (skills) at runtime.
+
+**Philosophical Alignment:**
+
+MACS shares with SOAR and ACT-R the commitment to **unified theories of cognition** but diverges in implementation:
+- **SOAR:** Problem decomposition through subgoaling → MACS: Hierarchical mission delegation
+- **ACT-R:** Production rules + subsymbolic activation → MACS: Skills + LLM reasoning
+- **Sigma:** Factor graphs for integration → MACS: Filesystem + global workspace for integration
+
+### 7.2 Comparison with Biological Systems
+
+#### 7.2.1 Human Cortical Hierarchy
 
 **Biological Organization:**
 ```
@@ -900,7 +1018,7 @@ Prime acts as the coordinating "mind" that integrates distributed cognition into
 - Constraints force efficiency (sleep to conserve energy, heuristics instead of exhaustive search)
 
 **MACS Intelligence:**
-- Prime (Gemini 3): ~$0.35 per million tokens output
+- Prime (Gemini 1.5 Pro): ~$1.25 per million tokens output
 - Swarm (Gemini Flash): ~$0.075 per million tokens
 - Typical mission: $5-50 depending on scale
 - Constraints force efficiency (pilot testing, adaptive batching, skill reuse)
